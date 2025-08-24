@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="Sneaky.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sneaky</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+    body {
+      background: linear-gradient(135deg, #232323 0%, #111 100%);
+      color: #fff;
+      font-family: 'Orbitron', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    h2 {
+      font-size: 3rem;
+      margin: 20px 0 10px 0;
+      color: #fff;
+      text-shadow: 0 2px 16px #000, 0 0 2px #fff;
+      font-family: 'Orbitron', Arial, sans-serif;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #eee;
+      text-shadow: 0 1px 4px #000;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    form {
+      background: rgba(20, 20, 20, 0.95);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 2px 24px 2px #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid #444;
+      border-bottom: 4px double #a0522d;
+      position: relative;
+      z-index: 2;
+    }
+    input[type="password"] {
+      padding: 15px;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border: 1px solid #555;
+      border-radius: 8px;
+      background: #111;
+      color: #fff;
+      width: 250px;
+      text-align: center;
+      outline: none;
+      box-shadow: 0 0 8px #222;
+      transition: border-color 0.2s;
+    }
+    input[type="password"]:focus {
+      border-color: #a0522d;
+    }
+    input[type="password"]::placeholder {
+      color: #bbb;
+    }
+    button {
+      padding: 12px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      background: #222;
+      border: 1px solid #555;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 8px #111;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    button:hover {
+      background: #a0522d;
+      color: #fff;
+      border: 1.5px solid #a0522d;
+    }
+    .error {
+      color: #fff;
+      background: #222;
+      margin-top: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow: 0 0 5px #000;
+      border-radius: 6px;
+      padding: 6px 16px;
+      border: 1px solid #555;
+      animation: shake 0.3s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    .fake-warning {
+      margin-top: 30px;
+      color: #fff;
+      background: #181818;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      box-shadow: 0 0 10px #111;
+      border: 2px dashed #a0522d;
+      text-align: center;
+      max-width: 400px;
+    }
+    .fake-warning span {
+      color: #ccc;
+    }
+    .fake-warning b {
+      color: #fff;
+      text-shadow: 0 0 2px #a0522d;
+    }
+    @media (max-width: 600px) {
+      h2 { font-size: 2rem; }
+      h1 { font-size: 1.2rem; }
+      form { padding: 18px 8px; }
+      .fake-warning { font-size: 0.95rem; padding: 10px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<audio autoplay loop>
+  <source src="Back.wav" type="audio/mpeg">
+</audio>
+
+  <h2>SECURE ENTRY GATE</h2>
+  <h1>Verify Your Identity</h1>
+  <form id="passwordForm">
+    <input type="password" id="passwordInput" placeholder="Enter Secure Password" required />
+    <button type="submit">Unlock Access</button>
+  </form>
+  <div class="error" id="errorMessage"></div>
+  <div class="fake-warning">
+    <span>WARNING: Unauthorized access is strictly prohibited.<br>
+    Failure to enter the correct password will result in <b>account suspension</b> and <b>data loss</b>.<br>
+    <span style="color:#bbb;">Act now to avoid permanent lockout!</span></span>
+  </div>
+
+  <script>
+    let tries = 0;
+    const maxTries = 3;
+    document.getElementById("passwordForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent page reload
+      const input = document.getElementById("passwordInput").value;
+      const error = document.getElementById("errorMessage");
+      if (input === "I.know.where.you.live") {
+        window.location.href = "next.html";
+      } else {
+        tries++;
+        if (tries >= maxTries) {
+          error.textContent = "❌ Too many incorrect attempts. Access locked.";
+          document.getElementById("passwordInput").disabled = true;
+          this.querySelector("button").disabled = true;
+        } else {
+          error.textContent = "❌ Incorrect password. Please try again!";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
